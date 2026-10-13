@@ -1,3 +1,2 @@
-#!/bin/bash 
-
-echo Ruuning Script
+/bin/bash
+echo 'Running script version A'
