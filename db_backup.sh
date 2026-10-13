@@ -1,2 +1,2 @@
 /bin/bash
-echo 'Running script version A'
+echo 'Running script version B'
