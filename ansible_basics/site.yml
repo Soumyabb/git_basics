@@ -1,0 +1,21 @@
+---
+- name: Execute local workspace provisioning configuration
+  hosts: local_servers
+  become: false
+
+  tasks:
+    - name: Create a secure configuration file using copy module
+      ansible.builtin.copy:
+        content: "Automated provisioning via Day 11 Playbook structure\n"
+        dest: "~/playbook_test.txt"
+
+    - name: Lock file permissions down to owner read/write limits
+      ansible.builtin.file:
+        path: "~/playbook_test.txt"
+        mode: "0600"
+
+    - name: Ensure an infrastructure backup folder hierarchy exists
+      ansible.builtin.file:
+        path: "~/archive/backup_dumps"
+        state: directory
+        mode: "0755"

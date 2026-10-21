@@ -1,0 +1,40 @@
+---
+- name: Complete local environment provisioning layout
+  hosts: local_servers
+  become: false
+
+  vars:
+    app_dir: "~/my_devops_app"
+    log_dir: "~/my_devops_app/logs"
+    config_file: "~/my_devops_app/app_config.env"
+    app_version: "v1.2.0"
+
+  tasks:
+    - name: 1. Ensure the primary application directory exists
+      ansible.builtin.file:
+        path: "{{ app_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: 2. Ensure the log directory tree exists
+      ansible.builtin.file:
+        path: "{{ log_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: 3. Provision the environment configuration file dynamically
+      ansible.builtin.copy:
+        content: |
+          # Generated automatically via Ansible Day 12 Playbook
+          APP_ENV=development
+          APP_VERSION={{ app_version }}
+          LOG_PATH={{ log_dir }}/app.log
+          DATABASE_HOST=127.0.0.1
+        dest: "{{ config_file }}"
+        mode: "0644"
+
+    - name: 4. Create an empty baseline log file
+      ansible.builtin.file:
+        path: "{{ log_dir }}/app.log"
+        state: touch
+        mode: "0666"
